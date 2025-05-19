@@ -1,0 +1,72 @@
+vector < vector <int> > g,aux;
+vector <int> pre, res;
+
+struct HLD {
+    int n, timer;
+    vector<int> in, out, nxt, tam;
+    
+    HLD(int v, int n) {
+        this->n = n;
+        timer = 0;
+        in.resize(n);
+        out.resize(n);
+        nxt.resize(n);
+        tam.resize(n);
+        dfs_sz(v);
+        nxt[v] = v;
+        dfs_hld(v);
+    }
+    
+    void dfs_sz(int v) {
+        tam[v] = 1;
+        for (auto &u : g[v]) {
+            dfs_sz(u);
+            tam[v] += tam[u];
+            if (tam[u] > tam[g[v][0]])
+                swap(u, g[v][0]);
+        }
+    }
+    
+    void dfs_hld(int v) {
+        //res.pb(v);
+        in[v] = timer++;
+        for (auto &u : g[v]) {
+            nxt[u] = u == g[v][0] ? nxt[v] : u;
+            dfs_hld(u);
+        }
+        out[v] = timer;
+    }
+
+    void path(int a, int b, STree <int> &st, int oper){        
+        int l = 0, r = 0;
+        while (nxt[a] != nxt[b]){
+            if (in[a] < in[b]){                                
+                l = in[nxt[b]], r = in[b];
+                if (oper == 1) st.upd(l,r,1);                
+                else st.upd(l,r,-1);
+                b = pre[nxt[b]];
+            }else{
+                l = in[nxt[a]], r = in[a];
+                if (oper == 1) st.upd(l,r,1);            
+                else st.upd(l,r,-1);
+                a = pre[nxt[a]];
+            }            
+        }
+        l = in[a], r = in[b];
+        if (l > r) swap(l,r);        
+        if (oper == 1) st.upd(l,r,1);            
+        else st.upd(l,r,-1);        
+    }
+    
+};
+
+void newG (int u){
+    vis[u] = true;
+    for (auto v: g[u]){
+        if (vis[v] == false){
+            aux[u].pb(v);
+            pre[v] = u;
+            newG(v);
+        }
+    }
+}
