@@ -29,6 +29,7 @@ void solve(){
 }
 
 int main(){
+  FAST
   int test = 1;
   cin >> test;
   while(test--) solve();
