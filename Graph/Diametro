@@ -1,0 +1,27 @@
+vector <vector <int>> G;
+vector <int> dis; // Distancia maxima desde i 
+const int N = 2e5+1;
+
+int diametro(int src, int op){    
+ 
+    vector <bool> vis(N,0);
+    vector <int> aux(N,0);
+    queue <int> q;
+    q.push(src);    
+    int mx = 0, ans = 0;    
+ 
+    while (!q.empty()){        
+        int u = q.front();        
+        vis[u] = true;        
+        q.pop();        
+        for (auto v: G[u]){
+            if (!vis[v]){
+                q.push(v);
+                aux[v] = max(aux[v],aux[u]+1);
+                if (aux[v] > mx) mx = aux[v], ans = v;
+                if (op == 1) dis[v] = max(dis[v], aux[u]+1);                
+            }
+        }
+    }
+    return ans;
+}
