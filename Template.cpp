@@ -1,5 +1,17 @@
 #include <bits/stdc++.h>
- 
+
+void _print() { cerr << "]" << endl; }
+template<typename T, typename... V>
+void _print(T t, V... v) { cerr << t; if (sizeof...(v)) cerr << ", "; _print(v...); }
+
+#define LOCAL
+#ifdef LOCAL
+  #define dbg(x...) cerr << "[" << #x << "]: ["; _print(x)
+#else
+  #define dbg(x...)
+  #define endl '\n'
+#endif
+
 #define forn(i,n) for (int i = 0; i < n; i++)
 #define rforn(i,n) for (int i = n-1; i >= 0; i--)
 #define fornP(i,a,b) for (int i = a; i  < b; i++)
