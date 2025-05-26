@@ -1,0 +1,15 @@
+struct Nodo {
+    int id, peso;
+
+    // Define orden natural (útil para sort, set)
+    bool operator<(const Nodo& otro) const {
+        return peso < otro.peso;
+    }
+};
+
+// Comparador para priority_queue (max-heap por peso)
+struct ComparadorPQ {
+    bool operator()(const Nodo& a, const Nodo& b) const {
+        return a.peso < b.peso;
+    }
+};
